@@ -3,83 +3,131 @@
 ## Модель бізнес-обʼєктів
 
 @startuml
+	entity SelectedOption <<ENTITY>>
 
-entity User
-entity User.ID
-entity User.email
-entity User.password
+  entity Option <<ENTITY>>
+  entity Option.id <<NUMBER>> #ffffff
+  entity Option.text <<TEXT>> #ffffff
+  entity Option.type <<TEXT>> #ffffff
 
-entity Quiz
-entity Quiz.ID
-entity Quiz.text
-entity Quiz.userID
-entity Quiz.questions
+  entity Answer <<ENTITY>>
+  entity Answer.id <<NUMBER>> #ffffff
+  entity Answer.text <<TEXT>> #ffffff
+  entity Answer.date <<DATE>> #ffffff
+  entity Answer.userId <<NUMBER>> #ffffff
+  
+  entity Expert <<ENTITY>>
+  entity Expert.id <<NUMBER>> #ffffff
+  
+  entity User <<ENTITY>>
+  entity User.username <<TEXT>> #ffffff
+  entity User.mail <<TEXT>> #ffffff
+  entity User.password <<TEXT>> #ffffff
+  entity User.id <<NUMBER>> #ffffff
 
-entity Question
-entity Question.ID
-entity Question.text
-entity Question.quizID
+  entity Question <<ENTITY>>
+  entity Question.id <<NUMBER>> #ffffff
+  entity Question.text <<TEXT>> #ffffff
+  entity Question.type <<TEXT>> #ffffff
 
-User *-- User.ID
-User *-- User.email
-User *-- User.password
+  entity Quiz <<ENTITY>>
+  entity Quiz.id <<NUMBER>> #ffffff
+  entity Quiz.text <<TEXT>> #ffffff
+  entity Quiz.type <<TEXT>> #ffffff
+  entity Quiz.topic <<TEXT>> #ffffff
+  entity Quiz.date <<DATE>> #ffffff
+	entity Quiz.state <<TEXT>> #ffffff
+  
+  User.username -u-* User
+  User.mail -u-* User
+  User.password -u-* User
+  User.id -u-* User
 
-Quiz *-- Quiz.ID
-Quiz *-- Quiz.text
-Quiz *-- Quiz.userID
-Quiz *-- Quiz.questions
+  Expert.id -d-* Expert
 
-Question *-- Question.ID
-Question *-- Question.text
-Question *-- Question.quizID
+  Option.id -u-* Option
+  Option.text -u-* Option
+  Option.type -u-* Option
 
-User.ID *-- Quiz.userID
-Quiz.ID *-- Question.quizID
+  Answer.id -u-* Answer
+  Answer.text -u-* Answer
+  Answer.date -u-* Answer
+  Answer.userId -u-* Answer
+  
+  Question.id -u-* Question
+  Question.text -u-* Question
+  Question.type -u-* Question
 
-Question --- Quiz
+  Quiz.id -d-* Quiz
+  Quiz.text -d-* Quiz
+  Quiz.type -d-* Quiz
+  Quiz.topic -d-* Quiz
+  Quiz.date -d-* Quiz
+	Quiz.state -d-* Quiz
 
+
+  User "1,0" -u- "1, 1" Expert
+  Expert "0,*"-r- "1,1" Answer
+  Question"1,1"-l- "0,*" Answer
+  Quiz "1,1" -d- "0,*" Question
+  Question "1,1" -d- "0,*" Option
+  Answer"1,1" -u- "0,*" SelectedOption
+  SelectedOption"1,1"-u- "0,*"Option
 @enduml
 
 ## ER-модель
 
 @startuml
+	entity User <<ENTITY>> {
+    id:INT
+    usersname:TEXT
+    mail:TEXT
+  }
+  
+  entity Expert <<ENTITY>>{
+    id:INT
+    job:TEXT
+  }
+  
+  entity Quiz <<ENTITY>>{
+    id:INT
+    text:TEXT
+    type:TEXT
+    topic:TEXT
+    date:DATE
+  }
+  
+  entity Question <<ENTITY>>{
+    id:INT
+    type:TEXT
+    text:TEXT
+    min: int
+    max: int
+  }
 
-entity Users <<ENTITY>> {
-	id:INT
-	email:VARCHAR
-	password:VARCHAR
-}
+  entity Option <<ENTITY>>{
+		id:INT
+    type:TEXT
+    text:TEXT    
+	}
 
-entity Quiz <<ENTITY>> {
-	id:INT
-	name:VARCHAR
-	userID:INT
-}
+  entity Answer <<ENTITY>> {
+    userId:INT
+    id:INT
+    text:TEXT
+    data:DATE
+  }
+  
+  entity SelectedOption {
+		id: INT
+  }
 
-entity Questions <<ENTITY>> {
-	id:INT
-	text:VARCHAR
-	quizID:INT
-}
-
-entity Answers <<ENTITY>> {
-	id:INT
-	text:VARCHAR
-	questionID:INT
-  correct:BOOLEAN
-}
-
-entity Results <<ENTITY>> {
-	id:INT
-	email:VARCHAR
-	quizID:INT
-  nbCorrect:INT
-  nbTotal:INT
-}
-
-Quiz "1, 1"---"0, *" Users
-Answers "0, 1"---"1, *" Questions
-Questions "1, *"---"1, *" Quiz
-Quiz "0, *"---"1, 1" Results
-
+  Question "1, 1"<-u- "0, *" Option
+  Answer "1, 1" <-u- "0, *" Question
+  Quiz "0, *" -u-> "1, 1" Question
+  Answer "1, 1" <-u- "0, *" Expert
+  Expert "1, 1" <-u- "1, 1" User
+  
+  Answer "1, 1" <-u- "0, *" SelectedOption
+  SelectedOption "1, 1" <-u- "0, *" Option
 @enduml
