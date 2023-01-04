@@ -9,4 +9,4 @@ const Pool = mysql.createConnection({
   database: "surveydb"
 });
 
-module.exports = { Pool }
+module.exports = { Pool };
