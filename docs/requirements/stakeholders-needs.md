@@ -15,7 +15,7 @@
 
 ### <a name='4'> </a>Основні визначення та скорочення
 
-Див. [Аналіз предметної області](https://kreslavskiy.github.io/databases-course-work/requirements/state-of-the-art.html)
+Див. [Аналіз предметної області](https://vadumpastushok.github.io/databases-course-work/requirements/state-of-the-art.html)
 
 ## Короткий зміст
 
