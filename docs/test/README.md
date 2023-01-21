@@ -1,37 +1,35 @@
 # Тестування працездатності системи
 
-## GET-запит для отримання всіх питань з бази
+## GET-запит для отримання всіх варіантів відповідей з бази
 
-<img width="849" alt="Знімок екрана 2023-01-04 о 12 13 42" src="https://user-images.githubusercontent.com/89911844/210533054-66da522b-0768-4cb4-8b08-8ec393c2d821.png">
+![get_options](https://user-images.githubusercontent.com/68640439/213873198-16100a7e-f09d-4a91-91c9-9b08ce5a6ecd.png)
 
-## GET-запит для отримання одного питання з конкретним ID
+## GET-запит для отримання варіантів відповідей для конкретного запитання
 
-<img width="848" alt="Знімок екрана 2023-01-04 о 12 15 19" src="https://user-images.githubusercontent.com/89911844/210533170-980daf3f-0035-4220-b4e4-2c737280a096.png">
+### Отримуємо варіанти відповіді для запитання з id=1
 
-## POST-запит для створення одного питання, при цьому ID інкрементується автоматично
+![get_options_by_question_id](https://user-images.githubusercontent.com/68640439/213873237-7464cf38-624a-4b29-94f5-134d71e1f205.png)
 
-<img width="853" alt="Знімок екрана 2023-01-04 о 12 16 44" src="https://user-images.githubusercontent.com/89911844/210533457-a849f9e5-f230-40fc-ac86-903294e5fd02.png">
+## POST-запит для створення одного варіанту відповіді, при цьому id інкрементується автоматично
 
-### GET-запит для перевірки створення питання
+![post_option](https://user-images.githubusercontent.com/68640439/213873244-44912de5-faab-4f9e-821f-18aa409569fa.png)
 
-<img width="855" alt="Знімок екрана 2023-01-04 о 12 18 01" src="https://user-images.githubusercontent.com/89911844/210533682-2e8e5301-a569-4042-9b37-a9cf532e8f2c.png">
+## PUT-запит для оновлення варіанту відповіді
 
-## PUT-запит для оновлення питання
+### Оновляємо варіант відповіді з id=4
 
-### Оновляємо питання з ID=14
+![update_option](https://user-images.githubusercontent.com/68640439/213873294-ec3aa8ad-ef2e-483a-9c9d-8006ef2bbf3c.png)
 
-<img width="850" alt="Знімок екрана 2023-01-04 о 12 19 51" src="https://user-images.githubusercontent.com/89911844/210534088-03c4e456-a4ec-4c07-a7c1-d7bb11946bc1.png">
+### GET-запит для перевірки оновлення варіанту відповіді з id=4
 
-### GET-запит для перевірки оновлення питання з ID=14
+![update_confirmation](https://user-images.githubusercontent.com/68640439/213873336-6a4be19d-96d5-4908-95a8-ae413d08c6c1.png)
 
-<img width="851" alt="Знімок екрана 2023-01-04 о 12 20 09" src="https://user-images.githubusercontent.com/89911844/210534249-ac74d9a3-abab-456d-bd41-822353cd0c28.png">
+## DELETE-запит для видалення варіанту відповіді з бази
 
-## DELETE-запит для видалення питання з бази
+### Видалення варіанту відповіді з id=4
 
-### Видалення питання з ID=14
+![deleting_option](https://user-images.githubusercontent.com/68640439/213873354-646a5813-5385-4370-a0fe-53e0eca04185.png)
 
-<img width="625" alt="Знімок екрана 2023-01-04 о 12 22 39" src="https://user-images.githubusercontent.com/89911844/210534456-9d0b4cd6-b6bc-4a27-b55f-e1d8708a489a.png">
+### GET-запит для перевірки видалення варіанту відповіді з id=4
 
-### GET-запит для перевірки видалення питання з ID=14
-
-<img width="847" alt="Знімок екрана 2023-01-04 о 12 23 22" src="https://user-images.githubusercontent.com/89911844/210534594-2d10f216-9c86-4e6a-9128-3b3527ea5ca2.png">
+![delete_confirmation](https://user-images.githubusercontent.com/68640439/213873363-d15ab8cd-f59f-4708-bda0-376d66373a3b.png)
