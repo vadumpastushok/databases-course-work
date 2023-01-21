@@ -344,16 +344,16 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
 const express = require('express');
 const { Pool } = require('./db/pool.js');
-const { getQuestion, getAllQuestions, createQuestion, deleteQuestion, updateQuestion } = require('./controller/controllers.js')
+const { getAllOptions, getOptionsByQuestionId, createOption, updateOption, deleteOption} = require('./controller/controllers.js')
 
 const app = express();
 const jsonParse = express.json();
 
-app.get('/question/:id', getQuestion);
-app.get('/questions/', getAllQuestions);
-app.post('/question/', jsonParse, createQuestion);
-app.put('/question/:id', jsonParse, updateQuestion);
-app.delete('/question/:id', deleteQuestion);
+app.get('/options/', getAllOptions);
+app.get('/options/:id', jsonParse, getOptionsByQuestionId);
+app.post('/option/', jsonParse, createOption);
+app.put('/option/:id', jsonParse, updateOption);
+app.delete('/option/:id', jsonParse, deleteOption);
 
 app.listen(3000);
 ```
@@ -367,9 +367,10 @@ const mysql = require('mysql2');
 
 const Pool = mysql.createConnection({
   host: "localhost",
-  user: "root",
-  password: "", //<- password here
-  database: "surveydb"
+  user: "admin",
+  password: "ikuex4hATLTJzMli",
+  database: "surveydb",
+  port: 3306
 });
 
 module.exports = { Pool };
@@ -382,8 +383,8 @@ module.exports = { Pool };
 
 const { Pool } = require('../db/pool.js');
 
-const getMaxQuestionId = () => {
-  const sql = 'SELECT MAX(id) FROM surveydb.questions';
+const getMaxOptionId = () => {
+  const sql = 'SELECT MAX(id) FROM surveydb.options';
   return new Promise((resolve, reject) => {
     Pool.query(sql, (error, result, fields) => {
       return resolve(result);
@@ -391,27 +392,27 @@ const getMaxQuestionId = () => {
   });
 };
 
-const getQuestion = (req, res) => {
-  const sql = `SELECT * FROM surveydb.questions WHERE id = ${req.params.id}`
-  Pool.query(sql, (error, result, fields) => {
-    if (error) return res.status(500).json(error);
-    result ? res.send(result) : res.sendStatus(404);
-  });
-};
-
-const getAllQuestions = (req, res) => {
-  const sql = 'SELECT * from surveydb.questions';
+const getAllOptions = (req, res) => {
+  const sql = 'SELECT * from surveydb.options';
   Pool.query(sql, (error, result, fields) => {
     if (error) return res.status(500).json(error);
     result ? res.send(result) : res.sendStatus(404)
   });
 };
 
-const createQuestion = (req, res) => {
+const getOptionsByQuestionId = (req, res) => {
+  const sql = `SELECT * FROM surveydb.options WHERE question_id = ${req.params.id}`
+  Pool.query(sql, (error, result, fields) => {
+    if (error) return res.status(500).json(error);
+    result ? res.send(result) : res.sendStatus(404);
+  });
+};
+
+const createOption = (req, res) => {
   if (!req.body) return res.sendStatus(400);
-  getMaxQuestionId().then(data => {
+  getMaxOptionId().then(data => {
     let maxId = data[0]['MAX(id)'];
-    const sql = `INSERT INTO surveydb.questions (id, type, text, quiz_id) VALUES (${++maxId},\"${req.body.type}\", \"${req.body.text}\", ${req.body.quiz_id})`;
+    const sql = `INSERT INTO surveydb.options (id, text, question_id, isCorrect) VALUES (${++maxId},\"${req.body.text}\", \"${req.body.question_id}\", ${req.body.isCorrect})`;
     Pool.query(sql, (error, result, fields) => {
       if (error) return res.status(500).json(error);
       result ? res.send(result) : res.sendStatus(404);
@@ -419,24 +420,22 @@ const createQuestion = (req, res) => {
   });
 };
 
-const deleteQuestion = (req, res) => {
-  const sql = `DELETE FROM surveydb.questions WHERE id = ${req.params.id}`
+const deleteOption = (req, res) => {
+  const sql = `DELETE FROM surveydb.options WHERE id = ${req.params.id}`
   Pool.query(sql, (error, result, fields) => {
     if (error) return res.status(500).json(error);
     result ? res.send(result) : res.sendStatus(404);
   });
 };
 
-const updateQuestion = (req, res) => {
+const updateOption = (req, res) => {
   if (!req.body) return res.sendStatus(400);
-  const sql = `UPDATE surveydb.questions SET type = \"${req.body.type}\", text = \"${req.body.text}\", quiz_id = \"${req.body.quiz_id}\" WHERE id = ${req.params.id} `
+  const sql = `UPDATE surveydb.options SET text = \"${req.body.text}\", question_id = \"${req.body.question_id}\", isCorrect = \"${req.body.isCorrect}\" WHERE id = ${req.params.id} `
   Pool.query(sql, (err, result, fields) => {
     if (err) throw err;
     result ? res.send(result) : res.sendStatus(404);
   });   
 };
 
-module.exports = { getQuestion, getAllQuestions, createQuestion, deleteQuestion, updateQuestion };
+module.exports = { getAllOptions, getOptionsByQuestionId, createOption, updateOption, deleteOption };
 ```
-
-
